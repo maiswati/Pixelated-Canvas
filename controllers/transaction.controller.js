@@ -5,7 +5,6 @@ import paintingModel from "../Models/painting.model";
 import auctionModel from "../Models/auction.model";
 import crypto from 'crypto';
 import userModel from "../Models/users.model";
-import paintingModel from './../Models/painting.model';
 const razorpayInstance = new Razorpay({
     key_id: process.env.RAZORPAY_KEY_ID,
     key_secret: process.env.RAZORPAY_KEY_SECRET,
