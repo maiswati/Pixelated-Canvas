@@ -15,11 +15,13 @@ import paintingModel from './Models/painting.model.js';
 
 dotenv.config();
 const MONGO_URL = process.env.MONGO_URL;
+const api = process.env.api;
+const PORT = process.env.PORT || 8000;
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
     cors: {
-        origin: "http://localhost:8000",
+        origin: api,
         methods: ["GET", "POST"]
     }
 });
@@ -35,8 +37,8 @@ app.use('/files', express.static(path.join(__dirname, 'files')));
 mongoose.connect(MONGO_URL)
     .then(() => {
         console.log("Successfully Connected to Database");
-        server.listen(8000, () => {
-            console.log('App is listening on port 8000');
+        server.listen(PORT , () => {
+            console.log(`App is listening on port ${PORT}`);
         });
     })
     .catch((err) => {
