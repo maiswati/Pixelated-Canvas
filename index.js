@@ -15,13 +15,13 @@ import paintingModel from './Models/painting.model.js';
 
 dotenv.config();
 const MONGO_URL = process.env.MONGO_URL;
-const api = process.env.api;
+const API = process.env.API;
 const PORT = process.env.PORT || 8000;
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
     cors: {
-        origin: api,
+        origin: API,// frontend
         methods: ["GET", "POST"]
     }
 });

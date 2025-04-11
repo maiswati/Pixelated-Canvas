@@ -6,6 +6,7 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
 const SECRET_KEY = process.env.SECRET_KEY;
+const API = process.env.API;
 export const registerUser = async(req,res)=>{
     try
     {
@@ -82,7 +83,7 @@ export const buildUserProfile = async(req,res)=>{
             console.log(paintingsData.file);
             const updatedPaintings = paintingsData.map(painting => ({
                 ...painting._doc,
-                file: `http://localhost:8000/files/${painting.file}` 
+                file: `${API}/files/${painting.file}` 
             }));
             res.status(200).json({user,updatedPaintings});
         } else if(user.role === "Buyer") {
@@ -90,7 +91,7 @@ export const buildUserProfile = async(req,res)=>{
             console.log(paintingsData.file);
             const updatedPaintings = paintingsData.map(painting => ({
                 ...painting._doc,
-                file: `http://localhost:8000/files/${painting.file}` 
+                file: `${API}/files/${painting.file}` 
             }));
             res.status(200).json({user,updatedPaintings});
         }

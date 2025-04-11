@@ -1,8 +1,10 @@
+import dotenv from 'dotenv';
+dotenv.config();
 import User from '../Models/users.model.js';
 import mongoose from 'mongoose';
 import paintingModel from './../Models/painting.model.js';
 import auctionModel from '../Models/auction.model.js';
-
+const API = process.env.API;
 export const paintingUpload = async (req, res) => {
     const session = await mongoose.startSession();
     session.startTransaction();
@@ -78,7 +80,7 @@ export const getIndividualPaintingData = async (req, res) => {
         const updatedPaintingData = {
             ...individualPaintingData.toObject(),
             file: individualPaintingData.file 
-                ? `http://localhost:8000/files/${individualPaintingData.file}` 
+                ? `${API}/files/${individualPaintingData.file}` 
                 : null
         };
         const paintingObjectId = new mongoose.Types.ObjectId(id);
