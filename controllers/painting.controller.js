@@ -11,11 +11,9 @@ export const paintingUpload = async (req, res) => {
 
     try {
         const { id } = req.params;
-        const { title, description, category, width, height, upiid, fixedPrice, startingPrice, bidIncrement } = req.body;
+        const { title, description, category, width, height, upiid, fixedPrice, startingPrice, bidIncrement, file } = req.body;
 
-        console.log(id, req.file, req.body);
-
-        if (!req.file?.filename) return res.status(400).json({ message: "Painting file has not been uploaded." });
+        if (!file) return res.status(400).json({ message: "Painting file has not been uploaded." });
         if (!title || !description || !category || !width || !height || !upiid) return res.status(400).json({ message: "All fields are required." });
         if (category === 'Sale' && !fixedPrice) return res.status(400).json({ message: "Fixed price is required." });
         if (category === 'Auction' && (!startingPrice || !bidIncrement)) return res.status(400).json({ message: "Starting price or Bid Increment is required." });
@@ -29,7 +27,7 @@ export const paintingUpload = async (req, res) => {
             category,
             dimension: { width: Number(width), height: Number(height) },
             upiid,
-            file: req.file.filename,
+            file,
             fixedPrice: category === 'Sale' ? Number(fixedPrice) : null,
             startingPrice: category === 'Auction' ? Number(startingPrice) : null,
             bidIncrement: category === 'Auction' ? Number(bidIncrement) : null,
@@ -79,9 +77,7 @@ export const getIndividualPaintingData = async (req, res) => {
 
         const updatedPaintingData = {
             ...individualPaintingData.toObject(),
-            file: individualPaintingData.file 
-                ? `${API}/files/${individualPaintingData.file}` 
-                : null
+            file: individualPaintingData.file || null
         };
         const paintingObjectId = new mongoose.Types.ObjectId(id);
         if (individualPaintingData.category === "Auction") {
