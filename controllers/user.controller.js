@@ -81,11 +81,11 @@ export const buildUserProfile = async(req,res)=>{
         if(user.role === "Seller") {
             const paintingsData = await paintingModel.find({sellerID: id});
             console.log(paintingsData.file);
-            res.status(200).json({user,paintingsData});
+            res.status(200).json({user,updatedPaintings:paintingsData});
         } else if(user.role === "Buyer") {
             const paintingsData = await paintingModel.find({buyerID: id});
             console.log(paintingsData.file);
-            res.status(200).json({user,paintingsData});
+            res.status(200).json({user,updatedPaintings:paintingsData});
         }
     } catch(error) {
         return res.status(500).json({message: "Internal Server error."});
