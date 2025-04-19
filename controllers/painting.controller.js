@@ -4,11 +4,8 @@ import User from '../Models/users.model.js';
 import mongoose from 'mongoose';
 import paintingModel from './../Models/painting.model.js';
 import auctionModel from '../Models/auction.model.js';
-const API = process.env.API;
-export const paintingUpload = async (req, res) => {
-    const session = await mongoose.startSession();
-    session.startTransaction();
 
+export const paintingUpload = async (req, res) => {
     try {
         const { id } = req.params;
         const { title, description, category, width, height, upiid, fixedPrice, startingPrice, bidIncrement, file } = req.body;
@@ -18,7 +15,7 @@ export const paintingUpload = async (req, res) => {
         if (category === 'Sale' && !fixedPrice) return res.status(400).json({ message: "Fixed price is required." });
         if (category === 'Auction' && (!startingPrice || !bidIncrement)) return res.status(400).json({ message: "Starting price or Bid Increment is required." });
 
-        const sellerOfPainting = await User.findById(id).session(session).exec();
+        const sellerOfPainting = await User.findById(id);
         if (!sellerOfPainting) return res.status(404).json({ message: "Seller has not registered." });
 
         const newPainting = new paintingModel({
@@ -35,10 +32,7 @@ export const paintingUpload = async (req, res) => {
             buyerID: null,
         });
 
-        const savedPainting = await newPainting.save({ session });
-
-        console.log(savedPainting);
-        
+        const savedPainting = await newPainting.save();
 
         let savedAuctionPainting = null;
 
@@ -49,21 +43,17 @@ export const paintingUpload = async (req, res) => {
                 startPrice: savedPainting.startingPrice,
                 sellerId: savedPainting.sellerID,
             });
-            savedAuctionPainting = await auctionPainting.save({ session });
+            savedAuctionPainting = await auctionPainting.save();
         }
-
-        await session.commitTransaction();
-        session.endSession();
 
         return res.status(200).json({ message: "Painting uploaded successfully.", savedPainting, savedAuctionPainting });
 
     } catch (error) {
         console.error("Actual error:", error);
-        await session.abortTransaction();
-        session.endSession();
-        return res.status(500).json({ message: "Internal Server Error." });
-    }
+        return res.status(500).json({ message: "Internal Server Error." });
+    }
 };
+
 
 
 export const getIndividualPaintingData = async (req, res) => {

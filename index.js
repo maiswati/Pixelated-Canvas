@@ -7,8 +7,8 @@ import transactionRoutes from './routes/transaction.routes.js';
 import dotenv from 'dotenv';
 import http from 'http';
 import { Server } from 'socket.io';
-import path from 'path';
-import { fileURLToPath } from 'url';
+// import path from 'path';
+// import { fileURLToPath } from 'url';
 import allPaintingsRoute from './routes/allpainting.routes.js';
 import auctionModel from './Models/auction.model.js';
 import paintingModel from './Models/painting.model.js';
@@ -30,9 +30,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-app.use('/files', express.static(path.join(__dirname, 'files')));
+// const __filename = fileURLToPath(import.meta.url);
+// const __dirname = path.dirname(__filename);
+// app.use('/files', express.static(path.join(__dirname, 'files')));
 
 mongoose.connect(MONGO_URL)
     .then(() => {
