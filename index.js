@@ -26,26 +26,13 @@ const io = new Server(server, {
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-const allowedOrigins = [
-    'http://localhost:5000',
-    'http://192.168.179.103:5000'
-  ];
-  
-  app.use(cors({
-    origin: function (origin, callback) {
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error('Not allowed by CORS'));
-      }
-    },
+app.use(cors({
+    origin: 'https://pixelated-canvas-frontend.vercel.app/', // OR your frontend URL if deployed
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     credentials: true
   }));
   
   
-
-
 mongoose.connect(MONGO_URL)
     .then(() => {
         console.log("Successfully Connected to Database");
