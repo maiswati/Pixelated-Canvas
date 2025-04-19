@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { getIndividualPaintingData, paintingUpload } from "../controllers/painting.controller.js";
-import parser from '../utils/upload'
+import upload from '../utils/upload.js'
 const router = Router();
 // import path from 'path';
 // import { fileURLToPath } from 'url';
@@ -23,7 +23,7 @@ const router = Router();
 
 // const upload = multer({ storage: storage })
 
-router.route('/newpaintingform/:id').post(parser.single('file'), paintingUpload);
+router.route('/newpaintingform/:id').post(upload.single('file'), paintingUpload);
 router.route('/paintingpost/:id').get(getIndividualPaintingData)
 export default router;
 
