@@ -9,6 +9,7 @@ export const paintingUpload = async (req, res) => {
     try {
         const { id } = req.params;
         const { title, description, category, width, height, upiid, fixedPrice, startingPrice, bidIncrement, file } = req.body;
+        console.log(file);
 
         if (!file) return res.status(400).json({ message: "Painting file has not been uploaded." });
         if (!title || !description || !category || !width || !height || !upiid) return res.status(400).json({ message: "All fields are required." });
@@ -61,6 +62,7 @@ export const getIndividualPaintingData = async (req, res) => {
         const { id } = req.params;
         
         const individualPaintingData = await paintingModel.findById(id);
+
         if (!individualPaintingData) {
             return res.status(404).json({ message: "Painting not found." });
         }
