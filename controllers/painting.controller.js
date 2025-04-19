@@ -67,10 +67,6 @@ export const getIndividualPaintingData = async (req, res) => {
             return res.status(404).json({ message: "Painting not found." });
         }
 
-        const updatedPaintingData = {
-            ...individualPaintingData.toObject(),
-            file: individualPaintingData.file || null
-        };
         const paintingObjectId = new mongoose.Types.ObjectId(id);
         if (individualPaintingData.category === "Auction") {
             const auctionData = await auctionModel.findOne({ painting: paintingObjectId });
@@ -83,13 +79,13 @@ export const getIndividualPaintingData = async (req, res) => {
 
             return res.status(200).json({
                 message: "Fetched Data successfully.",
-                updatedPaintingData : updatedPaintingData,
+                updatedPaintingData : individualPaintingData,
                 auctionData: auctionData
             });
         } else {
             return res.status(200).json({
                 message: "Painting Data Fetched Successfully.",
-                updatedPaintingData: updatedPaintingData
+                updatedPaintingData: individualPaintingData
             });
         }
     } catch (error) {
