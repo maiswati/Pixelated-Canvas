@@ -27,7 +27,7 @@ const io = new Server(server, {
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors({
-    origin: 'https://pixelated-canvas-frontend.vercel.app/', // OR your frontend URL if deployed
+    origin: 'https://pixelated-canvas-frontend.vercel.app/',
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     credentials: true
   }));
